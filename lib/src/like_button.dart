@@ -33,6 +33,7 @@ class LikeButton extends StatefulWidget {
     this.circleColor =
         const CircleColor(start: Color(0xFFFF5722), end: Color(0xFFFFC107)),
     this.onTap,
+    required this.onLongPress, // Required onLongPress parameter
     this.countPostion = CountPostion.right,
     this.padding,
     this.countDecoration,
@@ -61,6 +62,9 @@ class LikeButton extends StatefulWidget {
 
   /// tap call back of like button
   final LikeButtonTapCallback? onTap;
+
+  /// long press callback of like button
+  final void Function(BuildContext) onLongPress;
 
   /// whether it is liked
   /// it's initial value
@@ -135,6 +139,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
   bool? get isLiked => _isLiked;
   int? get likeCount => _likeCount;
   int? get preLikeCount => _preLikeCount;
+
   @override
   void initState() {
     super.initState();
@@ -289,6 +294,8 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
+      onLongPress: () =>
+          widget.onLongPress(context), // Modified onLongPress callback
       child: result,
     );
   }
